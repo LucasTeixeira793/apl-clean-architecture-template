@@ -1,14 +1,14 @@
 using CleanArchitecture.API.Configuration;
 using CleanArchitecture.Presentation;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var a = typeof(AssemblyReference).Assembly;
-builder.Services.AddControllers()
-    .AddApplicationPart(a);
+builder.Services.AddControllers().AddApplicationPart(typeof(AssemblyReference).Assembly);
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Host.UseSerilog((context, config) =>
+    config.ReadFrom.Configuration(context.Configuration));
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddConectionServices(builder.Configuration);
@@ -19,7 +19,6 @@ builder.Services.AddDependencyInjection();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -28,6 +27,9 @@ if (app.Environment.IsDevelopment())
 // Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// Serilog
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
