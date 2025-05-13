@@ -2,17 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Domain.Interfaces
+namespace CleanArchitecture.Domain.Interfaces;
+
+public interface IBlogRepository
 {
-    public interface IBlogRepository
-    {
-        Task<List<Blog>> GetAllAsync();
-        Task<Blog> GetByIdAsync(int id);
-        Task<Blog> CreateAsync(Blog blog);
-        Task<int> UpdateAsync(Blog blog, int id);
-        Task<int> DeleteAsync(int id);
-    }
+    Task<List<Blog>> GetAllAsync();
+    Task<List<Blog>> GetByExpressionAsync(Expression<Func<Blog, bool>> expression);
+    Task<Blog> CreateAsync(Blog blog);
+    Task<int> UpdateAsync(Blog blog, int id);
+    Task<int> DeleteAsync(int id);
 }

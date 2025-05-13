@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Domain.Entities
 {
+    /// <summary>
+    /// Represents the Postgres' table BLOG
+    /// </summary>
     [Table("blog")]
     public class Blog
     {

@@ -1,48 +1,75 @@
-﻿using CleanArchitecture.Application.Services;
+﻿using CleanArchitecture.Application.Blogs.Commands;
+using CleanArchitecture.Application.Blogs.Queries;
 using CleanArchitecture.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Presentation;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BlogController(IBlogService _blogService) : ControllerBase
+public class BlogController(IMediator _mediator) : ControllerBase
 {
+
     /// <summary>
-    /// Buscar todos registros
+    /// Buscar todos registros de Blog
     /// </summary>
     /// <returns></returns>
-    [HttpGet("[action]")]
+    [HttpGet]
     public async Task<ActionResult<List<Blog>>> GetAll()
     {
-        return Ok(await _blogService.GetAllAsync());
+        return Ok(await _mediator.Send(new GetAllBlogsQuery()));
     }
 
-
-    [HttpGet("[action]")]
-    public async Task<ActionResult<Blog>> GetById([FromQuery] int id)
+    /// <summary>
+    /// Busca Blog por ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Blog>> GetById(int id)
     {
-        return Ok(await _blogService.GetByIdAsync(id));
+        return Ok((await _mediator.Send(new GetBlogByExpressionQuery(q => q.Id == id))).FirstOrDefault());
     }
-        
 
-    [HttpPost("[action]")]
-    public async Task<ActionResult<int>> Create([FromBody] Blog request)
+    /// <summary>
+    /// Gera um novo registro de Blog
+    /// </summary>
+    /// <param name="request">Dados a serem incluidos do Blog</param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ActionResult<int>> Create([FromBody] CreateBlogCommand request)
     {
-        return Ok(await _blogService.CreateAsync(request));
+        var id = await _mediator.Send(request);
+        return CreatedAtAction(nameof(GetById), new {id}, request);
     }
 
-
-    [HttpPut("[action]/{id}")]
-    public async Task<ActionResult<int>> Update([FromBody] Blog request, int id)
+    /// <summary>
+    /// Atualiza dados de um Blog
+    /// </summary>
+    /// <param name="req">Dados a serem atualizados do Blog</param>
+    /// <param name="id">Identificador do blog</param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public async Task<ActionResult<int>> Update([FromBody] UpdateBlogDto req, int id)
     {
-        return Ok(await _blogService.UpdateAsync(request, id));
+        var command = new UpdateBlogCommand(id, req.Name, req.Description, req.Author, req.ImageUrl);
+        if (!await _mediator.Send(command))
+            return NotFound();
+        return CreatedAtAction(nameof(GetById), new {id}, req);
     }
 
-    [HttpDelete("[action]/{id}")]
+    /// <summary>
+    /// Deletar Registro
+    /// </summary>
+    /// <param name="id">Identificador do blog a ser deletado</param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
     public async Task<ActionResult<int>> Delete(int id)
     {
-        return Ok(await _blogService.DeleteAsync(id));
+        var success = await _mediator.Send(new DeleteBlogCommand(id));
+        if (!success)
+            return NotFound();
+        return NoContent();
     }
-    
 }
