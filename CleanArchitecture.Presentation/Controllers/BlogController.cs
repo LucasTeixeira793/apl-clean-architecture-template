@@ -1,10 +1,13 @@
-﻿using CleanArchitecture.Application.Blogs.Commands;
-using CleanArchitecture.Application.Blogs.Queries;
+﻿using CleanArchitecture.Application.Blogs.UseCases.Commands.Create;
+using CleanArchitecture.Application.Blogs.UseCases.Commands.Delete;
+using CleanArchitecture.Application.Blogs.UseCases.Commands.Update;
+using CleanArchitecture.Application.Blogs.UseCases.Queries.GetAll;
+using CleanArchitecture.Application.Blogs.UseCases.Queries.GetByExpression;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitecture.Presentation;
+namespace CleanArchitecture.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -40,8 +43,8 @@ public class BlogController(IMediator _mediator) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<int>> Create([FromBody] CreateBlogCommand request)
     {
-        var id = await _mediator.Send(request);
-        return CreatedAtAction(nameof(GetById), new {id}, request);
+        var blog = await _mediator.Send(request);
+        return CreatedAtAction(nameof(GetById), new {blog.Id}, blog);
     }
 
     /// <summary>

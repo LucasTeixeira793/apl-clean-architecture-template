@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.API.Configuration
+namespace Web.Configuration
 {
     public static class ConnectionServices
     {

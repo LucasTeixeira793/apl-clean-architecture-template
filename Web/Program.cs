@@ -1,16 +1,18 @@
-using CleanArchitecture.API.Configuration;
+using CleanArchitecture.Application;
 using Serilog;
-using static System.Net.Mime.MediaTypeNames;
+using Web.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddApplicationPart(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly);
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly);
 
 builder.Host.UseSerilog((context, config) =>
     config.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(CleanArchitecture.Application.AssemblyReference).Assembly));
+# region [ Arquitetura ]
+builder.Services.AddApplication();
+#endregion
 
 builder.Services.AddOpenApi();
 

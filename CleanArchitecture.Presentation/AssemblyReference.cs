@@ -1,5 +1,5 @@
 ﻿
 namespace CleanArchitecture.Presentation
 {
-    public class AssemblyReference { }
+    public static class AssemblyReference { }
 }

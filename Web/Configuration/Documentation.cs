@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-namespace CleanArchitecture.API.Configuration
+namespace Web.Configuration
 {
     public static class Documentation
     {

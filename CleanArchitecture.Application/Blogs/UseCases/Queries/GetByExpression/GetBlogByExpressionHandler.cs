@@ -1,14 +1,8 @@
-﻿using CleanArchitecture.Application.Blogs.Queries;
-using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.Blogs.Handlers
+namespace CleanArchitecture.Application.Blogs.UseCases.Queries.GetByExpression
 {
     public class GetBlogByExpressionHandler(IBlogRepository _blogRepository) : IRequestHandler<GetBlogByExpressionQuery, List<Blog>>
     {

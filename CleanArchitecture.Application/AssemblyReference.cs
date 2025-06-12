@@ -1,8 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Application;
-public class AssemblyReference { }
+public static class AssemblyReference
+{
+    public static void AddApplication(this IServiceCollection service)
+    {
+        service.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly);
+        });
+    }
+}

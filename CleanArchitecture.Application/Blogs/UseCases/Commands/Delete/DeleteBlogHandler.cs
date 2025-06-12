@@ -1,13 +1,7 @@
-﻿using CleanArchitecture.Application.Blogs.Commands;
-using CleanArchitecture.Domain.Interfaces;
+﻿using CleanArchitecture.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.Blogs.Handlers
+namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Delete
 {
     public class DeleteBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<DeleteBlogCommand, bool>
     {

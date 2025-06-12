@@ -1,14 +1,7 @@
-﻿using CleanArchitecture.Application.Blogs.Commands;
-using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Domain.Interfaces;
+﻿using CleanArchitecture.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.Blogs.Handlers
+namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Update
 {
     public class UpdateBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<UpdateBlogCommand, bool>
     {

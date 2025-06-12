@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Domain.Interfaces;
 using CleanArchitecture.Infrastructure.Repository;
 
-namespace CleanArchitecture.API.Configuration
+namespace Web.Configuration
 {
     public static class DependencyInjection
     {
