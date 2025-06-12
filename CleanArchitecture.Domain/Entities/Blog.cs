@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CleanArchitecture.Domain.Entities
 {
@@ -18,7 +13,7 @@ namespace CleanArchitecture.Domain.Entities
 
         [Column("name")]
         public string Name { get; set; } = String.Empty;
-        
+
         [Column("description")]
         public string Description { get; set; } = String.Empty;
 

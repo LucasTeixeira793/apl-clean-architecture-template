@@ -6,7 +6,7 @@ namespace Web.Configuration
     public static class DependencyInjection
     {
         public static void AddDependencyInjection(this IServiceCollection services)
-        {            
+        {
             #region Repositories
             services.AddScoped<IBlogRepository, BlogRepository>();
 

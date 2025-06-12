@@ -1,15 +1,18 @@
-﻿using CleanArchitecture.Domain.Interfaces;
+﻿using CleanArchitecture.Domain.Abstractions;
+using CleanArchitecture.Domain.Entities;
+using CleanArchitecture.Domain.Exceptions;
+using CleanArchitecture.Domain.Interfaces;
 using MediatR;
 
 namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Update
 {
-    public class UpdateBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<UpdateBlogCommand, bool>
+    public class UpdateBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<UpdateBlogCommand, Result<Blog>>
     {
-        public async Task<bool> Handle(UpdateBlogCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Blog>> Handle(UpdateBlogCommand request, CancellationToken cancellationToken)
         {
-            var blog = (await _blogRepository.GetByExpressionAsync(a => a.Id == request.Id)).FirstOrDefault();
+            var blog = (await _blogRepository.GetSingleByExpressionAsync(a => a.Id == request.Id));
             if (blog is null)
-                return false;
+                return BlogErrors.BlogNaoEncontrado;
 
             blog.Name = request.Name ?? blog.Name;
             blog.Description = request.Description ?? blog.Description;
@@ -17,7 +20,7 @@ namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Update
             blog.ImageUrl = request.ImageUrl ?? blog.ImageUrl;
 
             await _blogRepository.UpdateAsync(blog, request.Id);
-            return true;
+            return blog;
         }
     }
 }

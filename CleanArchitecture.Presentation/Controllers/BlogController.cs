@@ -3,6 +3,7 @@ using CleanArchitecture.Application.Blogs.UseCases.Commands.Delete;
 using CleanArchitecture.Application.Blogs.UseCases.Commands.Update;
 using CleanArchitecture.Application.Blogs.UseCases.Queries.GetAll;
 using CleanArchitecture.Application.Blogs.UseCases.Queries.GetByExpression;
+using CleanArchitecture.Domain.Abstractions;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,12 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActionResult<List<Blog>>> GetAll()
+    public async Task<ActionResult<Result<List<Blog>>>> GetAll()
     {
-        return Ok(await _mediator.Send(new GetAllBlogsQuery()));
+        var result = await _mediator.Send(new GetAllBlogsQuery());
+        return result.Match<ActionResult>(
+            success: _ => Ok(result),
+            failure: _ => NoContent());
     }
 
     /// <summary>
@@ -30,9 +34,12 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Blog>> GetById(int id)
+    public async Task<ActionResult<Result<Blog>>> GetById(int id)
     {
-        return Ok((await _mediator.Send(new GetBlogByExpressionQuery(q => q.Id == id))).FirstOrDefault());
+        var result = await _mediator.Send(new GetSingleBlogByExpressionQuery(q => q.Id == id));
+        return result.Match<ActionResult>(
+                    success: _ => Ok(result),
+                    failure: _ => NoContent());
     }
 
     /// <summary>
@@ -41,10 +48,12 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="request">Dados a serem incluidos do Blog</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<int>> Create([FromBody] CreateBlogCommand request)
+    public async Task<IActionResult> Create([FromBody] CreateBlogCommand request)
     {
         var blog = await _mediator.Send(request);
-        return CreatedAtAction(nameof(GetById), new {blog.Id}, blog);
+        return blog.Match<IActionResult>
+            (success: _ => CreatedAtAction(nameof(GetById), new { _.Id }, blog),
+             failure: _ => StatusCode(422, blog));
     }
 
     /// <summary>
@@ -54,12 +63,13 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="id">Identificador do blog</param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<int>> Update([FromBody] UpdateBlogDto req, int id)
+    public async Task<IActionResult> Update([FromBody] UpdateBlogDto req, int id)
     {
         var command = new UpdateBlogCommand(id, req.Name, req.Description, req.Author, req.ImageUrl);
-        if (!await _mediator.Send(command))
-            return NotFound();
-        return CreatedAtAction(nameof(GetById), new {id}, req);
+        var result = await _mediator.Send(command);
+        return result.Match<IActionResult>(
+            success: _ => CreatedAtAction(nameof(GetById), new { _.Id }, req),
+            failure: _ => StatusCode(404, result));
     }
 
     /// <summary>
@@ -68,11 +78,11 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="id">Identificador do blog a ser deletado</param>
     /// <returns></returns>
     [HttpDelete("{id}")]
-    public async Task<ActionResult<int>> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var success = await _mediator.Send(new DeleteBlogCommand(id));
-        if (!success)
-            return NotFound();
-        return NoContent();
+        var result = await _mediator.Send(new DeleteBlogCommand(id));
+        return result.Match<IActionResult>(
+            success: _ => NoContent(),
+            failure: _ => StatusCode(404,result));
     }
 }

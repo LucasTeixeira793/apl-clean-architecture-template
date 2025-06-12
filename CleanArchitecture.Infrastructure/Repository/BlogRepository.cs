@@ -2,12 +2,7 @@
 using CleanArchitecture.Domain.Interfaces;
 using CleanArchitecture.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Infrastructure.Repository;
 
@@ -26,16 +21,16 @@ public class BlogRepository(BlogDbContext _dbContext) : IBlogRepository
     public async Task<List<Blog>> GetAllAsync()
         => await _dbContext.Blog.ToListAsync();
 
-    public async Task<List<Blog>> GetByExpressionAsync(Expression<Func<Blog, bool>> expression)
-        => await _dbContext.Blog.Where(expression).ToListAsync();
+    public async Task<Blog> GetSingleByExpressionAsync(Expression<Func<Blog, bool>> expression)
+        => await _dbContext.Blog.Where(expression).FirstOrDefaultAsync();
 
     public async Task<int> UpdateAsync(Blog blog, int id)
         => await _dbContext.Blog
                  .Where(e => e.Id == id)
-                 .ExecuteUpdateAsync( setter => setter
+                 .ExecuteUpdateAsync(setter => setter
                     .SetProperty(m => m.Name, blog.Name)
                     .SetProperty(m => m.Author, blog.Author)
                     .SetProperty(m => m.Description, blog.Description)
-                    .SetProperty(m => m.ImageUrl, blog.ImageUrl)                        
+                    .SetProperty(m => m.ImageUrl, blog.ImageUrl)
                  );
 }

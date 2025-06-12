@@ -1,17 +1,20 @@
-﻿using CleanArchitecture.Domain.Interfaces;
+﻿using CleanArchitecture.Domain.Abstractions;
+using CleanArchitecture.Domain.Exceptions;
+using CleanArchitecture.Domain.Interfaces;
 using MediatR;
 
 namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Delete
 {
-    public class DeleteBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<DeleteBlogCommand, bool>
+    public class DeleteBlogHandler(IBlogRepository _blogRepository) : IRequestHandler<DeleteBlogCommand, Result>
     {
-        public async Task<bool> Handle(DeleteBlogCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeleteBlogCommand request, CancellationToken cancellationToken)
         {
-            var blog = (await _blogRepository.GetByExpressionAsync(d => d.Id == request.Id)).FirstOrDefault();
+            var blog = (await _blogRepository.GetSingleByExpressionAsync(d => d.Id == request.Id));
             if (blog is null)
-                return false;
+                return BlogErrors.BlogNaoEncontrado;
+
             await _blogRepository.DeleteAsync(request.Id);
-            return true;
+            return Result.Success();
         }
     }
 }

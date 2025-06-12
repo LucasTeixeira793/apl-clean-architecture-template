@@ -1,6 +1,4 @@
 ﻿using CleanArchitecture.Presentation;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace Web.Configuration
 {
