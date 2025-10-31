@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  template-clean-architecture:
+    container_name: template-clean-architecture
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - template-clean-architecture-net
+
+networks:
+  template-clean-architecture-net:
+    driver: bridge
