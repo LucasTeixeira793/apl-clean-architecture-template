@@ -18,7 +18,7 @@ public class GetRandomFactHandler(IUselessFactsApiService _api) : IRequestHandle
         }
         else
         {
-            return FactsErrors.ErroInesperado;
+            return ErrorsDomain.ErroInesperado;
         }
         return response.Content;
     }

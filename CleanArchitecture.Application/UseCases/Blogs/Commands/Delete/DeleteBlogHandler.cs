@@ -11,7 +11,7 @@ namespace CleanArchitecture.Application.UseCases.Blogs.Commands.Delete
         {
             var blog = await _blogRepository.GetSingleByExpressionAsync(d => d.Id == request.Id);
             if (blog is null)
-                return BlogErrors.BlogNaoEncontrado;
+                return ErrorsDomain.BlogNaoEncontrado;
 
             await _blogRepository.DeleteAsync(request.Id);
             return Result.Success();

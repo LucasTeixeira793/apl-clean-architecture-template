@@ -2,59 +2,67 @@
 
 public class Result
 {
-    public Result()
-    {
-        IsSuccess = true;
-        //Error = Error.None;
-    }
-    public Result(Error error)
-    {
-        IsSuccess = false;
-        Error = error;
-    }
-
     public bool IsSuccess { get; }
-    public Error? Error { get; }
+    public List<Error> Errors { get; }
 
-    public static Result Success() => new();
-    public static Result Failure(Error error) => new(error);
+    protected Result(bool isSuccess, List<Error>? errors = null)
+    {
+        IsSuccess = isSuccess;
+        Errors = errors ?? new();
+    }
 
-    public static implicit operator Result(Error error) => new(error);
+    public static Result Success() => new(true);
+
+    public static Result Failure(params Error[] errors)
+        => new(false, errors.ToList());
+
+    public static implicit operator Result(Error error)
+        => Failure(error);
+
+    public static implicit operator Result(List<Error> errors)
+        => Failure(errors.ToArray());
 
     public TResult Match<TResult>(
         Func<bool, TResult> success,
-        Func<Error, TResult> failure
+        Func<List<Error>, TResult> failure
         )
     {
-        return IsSuccess ? success(true) : failure(Error);
+        return IsSuccess ? success(true) : failure(Errors);
     }
 }
 
 public class Result<TValue> : Result
 {
-    public Result(TValue value) : base()
+    public TValue? Data { get; }
+
+    private Result(TValue value)
+        : base(true)
     {
         Data = value;
     }
 
-    public Result(Error error) : base(error)
+    private Result(List<Error> errors)
+        : base(false, errors)
     {
         Data = default;
     }
 
-    public TValue? Data { get; }
-
     public static Result<TValue> Success(TValue value) => new(value);
-    public static new Result<TValue> Failure(Error error) => new(error);
 
-    public static implicit operator Result<TValue>(TValue value) => new(value);
-    public static implicit operator Result<TValue>(Error error) => new(error);
+    public static new Result<TValue> Failure(params Error[] errors)
+        => new(errors.ToList());
+
+    public static implicit operator Result<TValue>(TValue value)
+        => Success(value);
+
+    public static implicit operator Result<TValue>(List<Error> errors)
+        => Failure(errors.ToArray());
 
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
-        Func<Error, TResult> failure
+        Func<List<Error>, TResult> failure
         )
     {
-        return IsSuccess ? success(Data!) : failure(Error);
+        return IsSuccess ? success(Data!) : failure(Errors);
     }
 }

@@ -12,7 +12,7 @@ namespace CleanArchitecture.Application.UseCases.Blogs.Queries.GetByExpression
         {
             var data = await _blogRepository.GetSingleByExpressionAsync(request.Expression);
             if (data is null)
-                return BlogErrors.BlogNaoEncontrado;
+                return ErrorsDomain.BlogNaoEncontrado;
             return data;
         }
     }

@@ -1,7 +1,6 @@
-﻿namespace CleanArchitecture.Domain.Abstractions
+﻿namespace CleanArchitecture.Domain.Abstractions;
+
+public record Error(string Code, string Description)
 {
-    public record Error(string Code, string Description)
-    {
-        public static Error None => new(string.Empty, string.Empty);
-    }
+    public static Error None => new(string.Empty, string.Empty);
 }

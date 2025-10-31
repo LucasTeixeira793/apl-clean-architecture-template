@@ -1,11 +1,6 @@
 ﻿using CleanArchitecture.Domain.Abstractions;
 using FluentValidation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Validators;
 
@@ -13,30 +8,29 @@ public static class ValidatorExtensions
 {
     public static Result ValidateResult<T>(this IValidator<T> validator, T instance)
     {
-        ValidationResult validationResult = validator.Validate(instance);
+        ValidationResult validation = validator.Validate(instance);
 
-        if (validationResult.IsValid)
+        if (validation.IsValid)
             return Result.Success();
 
-        // Monta uma lista de mensagens de erro unificadas
-        var errors = string.Join("; ", validationResult.Errors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}"));
+        var errors = validation.Errors
+            .Select(e => new Error(e.ErrorCode, e.ErrorMessage))
+            .ToList();
 
-        // Cria um Error de domínio
-        var error = new Error("Validation.Error", errors);
-
-        return Result.Failure(error);
+        return Result.Failure([.. errors]);
     }
 
-    public static Result<T> ValidateResult<T>(this IValidator<T> validator, T instance, Func<T, Result<T>> onSuccess)
+    public static Result<T> ValidateResult<T>(this IValidator<T> validator, T instance, T data)
     {
-        var validationResult = validator.Validate(instance);
+        ValidationResult validation = validator.Validate(instance);
 
-        if (validationResult.IsValid)
-            return onSuccess(instance);
+        if (validation.IsValid)
+            return Result<T>.Success(data);
 
-        var errors = string.Join("; ", validationResult.Errors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}"));
-        var error = new Error("Validation.Error", errors);
+        var errors = validation.Errors
+            .Select(e => new Error(e.ErrorCode, e.ErrorMessage))
+            .ToList();
 
-        return Result<T>.Failure(error);
+        return Result<T>.Failure([.. errors]);
     }
 }

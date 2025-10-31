@@ -12,7 +12,7 @@ namespace CleanArchitecture.Application.UseCases.Blogs.Commands.Update
         {
             var blog = await _blogRepository.GetSingleByExpressionAsync(a => a.Id == request.Id);
             if (blog is null)
-                return BlogErrors.BlogNaoEncontrado;
+                return ErrorsDomain.BlogNaoEncontrado;
 
             blog.Name = request.Name ?? blog.Name;
             blog.Description = request.Description ?? blog.Description;

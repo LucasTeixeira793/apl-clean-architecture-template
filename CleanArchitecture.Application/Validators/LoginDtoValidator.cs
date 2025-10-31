@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.UseCases.Login.Dto;
+using CleanArchitecture.Domain.Exceptions.Base;
 using FluentValidation;
 
 namespace CleanArchitecture.Application.Validators;
@@ -8,11 +9,11 @@ public class LoginDtoValidator : AbstractValidator<LoginDto>
     public LoginDtoValidator()
     {
         RuleFor(c => c.Email)
-            .NotEmpty().WithMessage("O campo E-mail é obrigatório.")
-            .EmailAddress().WithMessage("O campo E-mail deve ser um endereço de e-mail válido.");
+            .NotEmpty().WithErrorCode(ErrorCodes.CampoObrigatorio.Code).WithMessage("O campo Email é obrigatório.")
+            .EmailAddress().WithErrorCode(ErrorCodes.CampoInvalido.Code).WithMessage("O campo Email deve ser um endereço de e-mail válido.");
 
         RuleFor(c => c.Password)
-            .NotEmpty().WithMessage("O campo Senha é obrigatório.")
-            .MinimumLength(6).WithMessage("O campo Senha deve ter no mínimo 6 caracteres.");
+            .NotEmpty().WithErrorCode(ErrorCodes.CampoObrigatorio.Code).WithMessage("O campo Senha é obrigatório.")
+            .MinimumLength(6).WithErrorCode(ErrorCodes.CampoInvalido.Code).WithMessage("O campo Senha deve ter no mínimo 6 caracteres.");
     }
 }
