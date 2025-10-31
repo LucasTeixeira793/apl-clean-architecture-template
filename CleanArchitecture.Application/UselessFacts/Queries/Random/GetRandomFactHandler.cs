@@ -3,6 +3,7 @@ using CleanArchitecture.Domain.Abstractions;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Exceptions;
 using MediatR;
+using System.Net;
 
 namespace CleanArchitecture.Application.UselessFacts.Queries.Random;
 
@@ -11,7 +12,7 @@ public class GetRandomFactHandler(IUselessFactsApiService _api) : IRequestHandle
     public async Task<Result<UselessFact>> Handle(GetRandomFactQuery request, CancellationToken cancellationToken)
     {
         var response = await _api.GetRandom();
-        if (response.IsSuccessStatusCode && response.Content != null)
+        if (response is { StatusCode: HttpStatusCode.OK })
         {
             Console.WriteLine($"New Fact: {response.Content.Text}");
         }

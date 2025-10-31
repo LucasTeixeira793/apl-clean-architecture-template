@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.Infrastructure.Data;
+﻿using CleanArchitecture.Application;
+using CleanArchitecture.Infrastructure.Data;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Configuration
@@ -11,6 +13,10 @@ namespace Web.Configuration
             services.AddEntityFrameworkNpgsql().AddDbContext<BlogDbContext>(option =>
                 option.UseNpgsql(configuration.GetConnectionString("PostgresTeste"))
             );
+            #endregion
+
+            #region [ FLUENT VALIDATION ]
+            services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly, includeInternalTypes: true);
             #endregion
         }
     }
