@@ -1,6 +1,7 @@
-﻿using CleanArchitecture.Application.Login.UseCases.Commands.LoginUser;
+﻿using CleanArchitecture.Application.Interfaces;
 using CleanArchitecture.Domain.Interfaces;
 using CleanArchitecture.Infrastructure.Repository;
+using CleanArchitecture.Infrastructure.Services.UselessFactsApi;
 
 namespace Web.Configuration
 {
@@ -8,7 +9,10 @@ namespace Web.Configuration
     {
         public static void AddDependencyInjection(this IServiceCollection services)
         {
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            #region Services
+            services.AddScoped<IJwtTokenGenerator, JwtTokenConfig>();
+            services.AddScoped<IUselessFactsApiService, UselessFactsApiService>();
+            #endregion
 
             #region Repositories
             services.AddScoped<IBlogRepository, BlogRepository>();

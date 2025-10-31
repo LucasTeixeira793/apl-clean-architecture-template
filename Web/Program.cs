@@ -42,6 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddConectionServices(builder.Configuration);
 
+builder.Services.AddExternalServices(builder.Configuration);
+
 builder.Services.AddSwaggerConfig();
 
 builder.Services.AddDependencyInjection();

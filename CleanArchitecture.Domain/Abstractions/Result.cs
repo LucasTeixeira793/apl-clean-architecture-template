@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace CleanArchitecture.Domain.Abstractions;
+﻿namespace CleanArchitecture.Domain.Abstractions;
 
 public class Result
 {

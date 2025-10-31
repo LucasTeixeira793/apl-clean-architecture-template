@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Configuration
 {
-    public static class ConnectionServices
+    public static class ConnectionServicesConfig
     {
         public static void AddConectionServices(this IServiceCollection services, IConfiguration configuration)
         {

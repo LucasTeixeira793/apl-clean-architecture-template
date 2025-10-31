@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Application.Login.Dto;
-using CleanArchitecture.Application.Login.UseCases.Commands.LoginUser;
+﻿using CleanArchitecture.Application.Interfaces;
+using CleanArchitecture.Application.Login.Dto;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Web.Configuration;
 
-public class JwtTokenGenerator(IConfiguration configuration) : IJwtTokenGenerator
+public class JwtTokenConfig(IConfiguration configuration) : IJwtTokenGenerator
 {
     public LoginUserResponse GenerateToken(string userId, string email)
     {

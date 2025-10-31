@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CleanArchitecture.Domain.Abstractions.Extensions;
+﻿namespace CleanArchitecture.Domain.Abstractions.Extensions;
 
 public static class LinqToDbExtensions
 {

@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Application", "CleanArchitecture.Application\CleanArchitecture.Application.csproj", "{119E87BA-09A1-3DBA-E354-47FDC8E99729}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Infrastructure", "CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj", "{B3127A4C-EE10-2F2B-D201-6AD9455E8970}"
+	ProjectSection(ProjectDependencies) = postProject
+		{119E87BA-09A1-3DBA-E354-47FDC8E99729} = {119E87BA-09A1-3DBA-E354-47FDC8E99729}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Domain", "CleanArchitecture.Domain\CleanArchitecture.Domain.csproj", "{204E327D-A433-4D90-1A24-9E41BC2DCD92}"
 EndProject

@@ -9,12 +9,12 @@ namespace CleanArchitecture.Application.Blogs.UseCases.Commands.Create
     {
         public async Task<Result<Blog>> Handle(CreateBlogCommand request, CancellationToken cancellationToken)
         {
-            var blog = new Blog 
-            { 
-                Name = request.Name, 
-                Author = request.Author, 
-                Description = request.Description, 
-                ImageUrl = request.ImageUrl 
+            var blog = new Blog
+            {
+                Name = request.Name,
+                Author = request.Author,
+                Description = request.Description,
+                ImageUrl = request.ImageUrl
             };
 
             await _blogRepository.CreateAsync(blog);

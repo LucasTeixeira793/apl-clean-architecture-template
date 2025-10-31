@@ -83,6 +83,6 @@ public class BlogController(IMediator _mediator) : ControllerBase
         var result = await _mediator.Send(new DeleteBlogCommand(id));
         return result.Match<IActionResult>(
             success: _ => NoContent(),
-            failure: _ => StatusCode(404,result));
+            failure: _ => StatusCode(404, result));
     }
 }

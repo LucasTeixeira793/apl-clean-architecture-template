@@ -1,8 +1,6 @@
-﻿using CleanArchitecture.Application.Blogs.UseCases.Queries.GetAll;
-using CleanArchitecture.Application.Login.Dto;
+﻿using CleanArchitecture.Application.Login.Dto;
 using CleanArchitecture.Application.Login.UseCases.Commands.LoginUser;
 using CleanArchitecture.Domain.Abstractions;
-using CleanArchitecture.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +14,7 @@ public class LoginController(IMediator _mediator) : ControllerBase
 {
 
     /// <summary>
-    /// Buscar todos registros de Blog
+    /// Realiza login
     /// </summary>
     /// <returns></returns>
     [HttpPost]
