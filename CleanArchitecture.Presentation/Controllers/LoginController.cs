@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Application.Login.Dto;
-using CleanArchitecture.Application.Login.UseCases.Commands.LoginUser;
+﻿using CleanArchitecture.Application.UseCases.Login.Commands.LoginUser;
+using CleanArchitecture.Application.UseCases.Login.Dto;
 using CleanArchitecture.Application.Validators;
 using CleanArchitecture.Domain.Abstractions;
 using FluentValidation;

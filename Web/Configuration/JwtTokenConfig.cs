@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Application.Interfaces;
-using CleanArchitecture.Application.Login.Dto;
+using CleanArchitecture.Application.UseCases.Login.Dto;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;

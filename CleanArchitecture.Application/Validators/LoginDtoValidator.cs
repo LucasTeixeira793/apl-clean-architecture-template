@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Login.Dto;
+﻿using CleanArchitecture.Application.UseCases.Login.Dto;
 using FluentValidation;
 
 namespace CleanArchitecture.Application.Validators;

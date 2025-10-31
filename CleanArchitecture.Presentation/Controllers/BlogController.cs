@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.Blogs.UseCases.Commands.Create;
-using CleanArchitecture.Application.Blogs.UseCases.Commands.Delete;
-using CleanArchitecture.Application.Blogs.UseCases.Commands.Update;
-using CleanArchitecture.Application.Blogs.UseCases.Queries.GetAll;
-using CleanArchitecture.Application.Blogs.UseCases.Queries.GetByExpression;
+﻿using CleanArchitecture.Application.UseCases.Blogs.Commands.Create;
+using CleanArchitecture.Application.UseCases.Blogs.Commands.Delete;
+using CleanArchitecture.Application.UseCases.Blogs.Commands.Update;
+using CleanArchitecture.Application.UseCases.Blogs.Queries.GetAll;
+using CleanArchitecture.Application.UseCases.Blogs.Queries.GetByExpression;
 using CleanArchitecture.Domain.Abstractions;
 using CleanArchitecture.Domain.Entities;
 using MediatR;

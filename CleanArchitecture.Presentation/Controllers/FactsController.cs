@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.UselessFacts.Queries.Random;
+﻿using CleanArchitecture.Application.UseCases.UselessFacts.Queries.Random;
 using CleanArchitecture.Domain.Abstractions;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
