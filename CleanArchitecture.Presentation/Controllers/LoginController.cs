@@ -26,7 +26,7 @@ public class LoginController(IMediator _mediator,
         var validation = _validator.ValidateResult(login);
         if (!_validator.ValidateResult(login).IsSuccess) return validation;
 
-        var result = await _mediator.Send(new LoginUserCommand(login.Email, login.Password));
+        var result = await _mediator.Send(new LoginUserCommand(login.Email!, login.Password!));
         return result.Match<ActionResult>(
             success: _ => Ok(result),
             failure: _ => BadRequest(result));

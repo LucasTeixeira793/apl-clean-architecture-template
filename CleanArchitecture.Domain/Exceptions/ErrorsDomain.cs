@@ -7,5 +7,5 @@ public static class ErrorsDomain
 {
     public static readonly List<Error> BlogNaoEncontrado = [ErrorCodes.NaoEncontrado];
     public static readonly List<Error> ErroInesperado = [ErrorCodes.ErroInesperado];
-    public static readonly List<Error> NaoAutenticado = [ErrorCodes.NaoAutorizado];
+    public static readonly List<Error> UsuarioOuSenhaInvalidos = [ErrorCodes.NaoAutorizado];
 }

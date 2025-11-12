@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Infrastructure.Repository;
 
-public class BlogRepository(BlogDbContext _dbContext) : IBlogRepository
+public class BlogRepository(TesteDbContext _dbContext) : IBlogRepository
 {
     public async Task<Blog> CreateAsync(Blog blog)
     {

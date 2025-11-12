@@ -10,7 +10,7 @@ namespace Web.Configuration
         public static void AddConectionServices(this IServiceCollection services, IConfiguration configuration)
         {
             #region [ POSTGRESQL ]
-            services.AddEntityFrameworkNpgsql().AddDbContext<BlogDbContext>(option =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<TesteDbContext>(option =>
                 option.UseNpgsql(configuration.GetConnectionString("PostgresTeste"))
             );
             #endregion

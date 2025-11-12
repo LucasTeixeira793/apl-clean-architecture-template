@@ -6,12 +6,14 @@ using CleanArchitecture.Application.UseCases.Blogs.Queries.GetByExpression;
 using CleanArchitecture.Domain.Abstractions;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin,Curioso")]
 public class BlogController(IMediator _mediator) : ControllerBase
 {
 
@@ -48,6 +50,7 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="request">Dados a serem incluidos do Blog</param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateBlogCommand request)
     {
         var blog = await _mediator.Send(request);
@@ -63,6 +66,7 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="id">Identificador do blog</param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update([FromBody] UpdateBlogDto req, int id)
     {
         var command = new UpdateBlogCommand(id, req.Name, req.Description, req.Author, req.ImageUrl);
@@ -78,6 +82,7 @@ public class BlogController(IMediator _mediator) : ControllerBase
     /// <param name="id">Identificador do blog a ser deletado</param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteBlogCommand(id));

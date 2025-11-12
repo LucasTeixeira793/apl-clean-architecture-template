@@ -16,6 +16,8 @@ namespace Web.Configuration
 
             #region Repositories
             services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             #endregion
         }
